@@ -1,0 +1,38 @@
+#!/bin/sh
+
+
+opt_verbose=0
+opt_dry_run=0
+opt_init=/sbin/init
+
+
+while [ "$1" != "" ]
+do
+	case "$1" in
+		"-v" | "--verbose" ) opt_verbose=1 ;;
+		"-n" | "--dry_run" ) opt_dry_run=1 ;;
+		"-i" | "--init" )    shift; opt_init="$1" ;;
+	esac
+	shift
+done
+
+mount none /proc -t proc
+mount none /sys  -t sysfs
+
+for script in /etc/early-init.d/*
+do
+	if [ -x "${script}" ]
+	then
+		if [ ${opt_verbose} -gt 0 ]
+		then
+			echo "Running ${script}" >&2
+		fi
+
+		if [ ${opt_dry_run} -eq 0 ]
+		then
+			"${script}"
+		fi
+	fi
+done
+
+exec ${opt_init}
