@@ -21,6 +21,8 @@ The idea is to let the kernel start `early-init` with the help of the `init=` di
 Then `early-init` executes in order the scripts found in `/etc/early-init.d`.
 Finally `early-init` gives the control to the original `/sbin/init` process.
 
+![Boot workflow](doc/early-init.png)
+
 Some command line options are available to configure `early-init`.
 
 - The option `-v` (`--verbose`) let `early-init` display what it does on the standard error output.
