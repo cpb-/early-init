@@ -31,3 +31,10 @@ Some command line options are available to configure `early-init`.
 
 - The option `-i <filename>` (`--init <filename>`) allows `early-init` to execute an init process different than `/sbin/init` (for example `/bin/sh` for debug).
 
+In addition to installing `early-init` and the scripts performing the desired tasks, you will need to configure the bootloader to pass the `init=/sbin/early-init` argument on the kernel parameter line.
+
+With U-boot, this can be easily achieved by placing a `boot.scr` file on the bootloader partition containing the line:
+
+```
+setenv bootargs ${bootargs} init=/sbin/early-init
+```
