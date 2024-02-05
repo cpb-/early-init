@@ -53,5 +53,10 @@ The second way is much easier, as it only needs to configure three kernel option
 We can achieve this with a simple kernel configuration fragment (present in `/cfg` subdirectory):
 
 ```
-setenv bootargs ${bootargs} init=/sbin/early-init
+early-init-fragment.cfg: 
+
+CONFIG_CMDLINE="init=/sbin/early-init"
+CONFIG_CMDLINE_EXTEND=y
+# CONFIG_CMDLINE_FROM_BOOTLOADER is not set
 ```
+
