@@ -11,6 +11,8 @@ MIT
 - Alexandre Grosset
 - Christophe Blaess
 
+### Summary
+
 The aim of this small project is to easily run custom tasks during the boot of an embedded system before starting `systemd`, `sysvinit`, `openrc`, or any other init daemon.
 
 The main idea is to divide the initialization tasks on two parts: the low-level tasks that need to be run at the very start of the boot, in a certain order, with a predictible behavior, and the high-level tasks that are needed to run custom code on the embedded system.
@@ -23,6 +25,8 @@ Finally `early-init` gives the control to the original `/sbin/init` process.
 
 ![Boot workflow](doc/early-init.png)
 
+### Usage
+
 Some command line options are available to configure `early-init`.
 
 - The option `-v` (`--verbose`) let `early-init` display what it does on the standard error output.
@@ -31,7 +35,8 @@ Some command line options are available to configure `early-init`.
 
 - The option `-i <filename>` (`--init <filename>`) allows `early-init` to execute an init process different than `/sbin/init` (for example `/bin/sh` for debug).
 
-In addition to installing `early-init` and the scripts performing the desired tasks, you will need to configure the bootloader to pass the `init=/sbin/early-init` argument on the kernel parameter line.
+### Installation
+
 
 With U-boot, this can be easily achieved by placing a `boot.scr` file on the bootloader partition containing the line:
 
