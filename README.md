@@ -37,8 +37,20 @@ Some command line options are available to configure `early-init`.
 
 ### Installation
 
+In addition to installing `early-init` in `/sbin` directory and the scripts performing the desired tasks in `/etc/early-init.d`, you will need to add the `init=/sbin/early-init` argument on the kernel parameter line.
 
-With U-boot, this can be easily achieved by placing a `boot.scr` file on the bootloader partition containing the line:
+There is two ways to do this:
+
+- configure the bootloader to pass this argument on the kernel command line (using `bootargs` variable for U-boot)
+- configure the kernel to add itself the parameter on its command line.
+
+The second way is much easier, as it only needs to configure three kernel options:
+
+- `CONFIG_CMDLINE` must be filled with the string `"init=/sbin/early-init"`
+- `CONFIG_CMDLINE_EXTEND` must be enabled (`y`)
+- `CONFIG_CMDLINE_FROM_BOOTLOADER` has to be disabled.
+
+We can achieve this with a simple kernel configuration fragment (present in `/cfg` subdirectory):
 
 ```
 setenv bootargs ${bootargs} init=/sbin/early-init
