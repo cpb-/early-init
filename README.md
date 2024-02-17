@@ -104,3 +104,9 @@ Here are some other ideas of tasks that may need to be run as soon as possible a
 - connecting to a remote NTP server and setting precise system time,
 - ...
 
+## Yocto Project recipe
+
+A recipe for Yocto Project is present in the `cfg/` subdirectory.
+
+This recipe is mainly intended as an example and you may need to customize the list of the
+task scripts to be installed.
