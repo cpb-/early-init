@@ -95,11 +95,12 @@ There are some scripts provided as examples in `early-init.d` subdirectory:
 
 - `010-mount-data-partition.sh` is a script to read/write mount a data partition, repariring the filesystem in case of mount error, and reformating the partition if the repair is not possible.
 - `020-mount-overlayfs-on-etc.sh` allows to mount a (read/write) overlays on the (read-only) `/etc` directory. The configuration modifications will be stored on the `/data` partition.
-- `030-system-time-from-rtc.s` is a one-liner script to set the system date and time from the RTC.
+- `030-system-time-from-rtc.sh` is a one-liner script to set the system date and time from the RTC.
 
-Other ideas:
+Here are some other ideas of tasks that may need to be run as soon as possible at boot time and in a given order:
 
 - loading needed kernel modules,
 - reading a file in `/etc/` for parameters and setting network interfaces up,
 - connecting to a remote NTP server and setting precise system time,
 - ...
+
