@@ -1,0 +1,5 @@
+#!/bin/sh
+
+
+hwclock -s
+
