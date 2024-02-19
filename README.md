@@ -38,7 +38,7 @@ The main idea is to divide the initialization tasks in two parts: the low-level 
 A fully predictible order of task execution is difficult to achieve with `systemd` for example, but `systemd` may be needed to run custom code with a lot of dependencies (D-bus...).
 
 The idea is to let the kernel start `early-init` with the help of the `init=` directive of the kernel command line.
-Then `early-init` executes in order the scripts found in `/etc/early-init.d`.
+Then `early-init` executes in order the scripts found in `/etc/early-init.d/`.
 Finally `early-init` gives the control to the original `/sbin/init` process.
 
 ![Boot workflow](doc/early-init.png)
@@ -55,11 +55,11 @@ Some command line options are available to configure `early-init`:
 
 ## Installation
 
-In addition to installing `early-init` in `/sbin` directory and the scripts performing the desired tasks in `/etc/early-init.d`, you will need to add the `init=/sbin/early-init` argument on the kernel parameter line.
+In addition to installing `early-init` in `/sbin` directory and the scripts performing the desired tasks in `/etc/early-init.d/`, you will need to add the `init=/sbin/early-init` argument on the kernel parameter line.
 
 There is two ways to do this:
 
-- configure the bootloader to pass this argument on the kernel command line (using `bootargs` variable for U-boot)
+- configure the bootloader to pass this argument on the kernel command line (using `bootargs` variable for U-boot for example)
 - configure the kernel himself to add the parameter on the command line.
 
 
@@ -69,7 +69,7 @@ The second way is much easier, as it only needs to configure three kernel option
 - `CONFIG_CMDLINE_EXTEND` must be enabled (`y`)
 - `CONFIG_CMDLINE_FROM_BOOTLOADER` has to be disabled.
 
-We can achieve this with a simple kernel configuration fragment (present in `/cfg` subdirectory):
+We can achieve this with a simple kernel configuration fragment (present in the `/cfg` subdirectory of the project):
 
 ```
 early-init-fragment.cfg: 
@@ -91,22 +91,21 @@ setenv bootargs ${boootargs} init=/sbin/early-init
 
 ## Examples of use
 
-There are some scripts provided as examples in `early-init.d` subdirectory:
+There are some scripts provided as examples in the `early-init.d` subdirectory of the project:
 
-- `010-mount-data-partition.sh` is a script to read/write mount a data partition, repariring the filesystem in case of mount error, and reformating the partition if the repair is not possible.
+- `010-mount-data-partition.sh` is a script to mount in read-write mode the data partition, repariring the filesystem in case of mount error, and reformating the partition if the repair is not possible.
 - `020-mount-overlayfs-on-etc.sh` allows to mount a (read/write) overlays on the (read-only) `/etc` directory. The configuration modifications will be stored on the `/data` partition.
 - `030-system-time-from-rtc.sh` is a one-liner script to set the system date and time from the RTC.
 
 Here are some other ideas of tasks that may need to be run as soon as possible at boot time and in a given order:
 
-- loading needed kernel modules,
-- reading a file in `/etc/` for parameters and setting network interfaces up,
-- connecting to a remote NTP server and setting precise system time,
+- loading needed kernel modules with `modprobe`,
+- reading a configuration file in `/etc/` then setting network interfaces up,
+- connecting to a remote NTP server and setting exact system time,
 - ...
 
 ## Yocto Project recipe
 
-A recipe for Yocto Project is present in the `cfg/` subdirectory.
+A recipe for Yocto Project is present in the `cfg/` subdirectory of the project.
 
-This recipe is mainly intended as an example and you may need to customize the list of the
-task scripts to be installed.
+This recipe is mainly intended as an example and you probably will need to customize the list of the task scripts to be installed.
