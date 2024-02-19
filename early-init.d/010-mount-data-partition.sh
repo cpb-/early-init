@@ -1,4 +1,10 @@
 #!/bin/sh
+#
+# SPDX-License-Identifier: MIT
+#
+# Script to mount a read-write data partition, to check the filesystem in
+# case of mount failure, and to reformate the partition if the check failed.
+#
 
 PARTITION=/dev/mmcblk0p3
 MOUNTPOINT=/data
